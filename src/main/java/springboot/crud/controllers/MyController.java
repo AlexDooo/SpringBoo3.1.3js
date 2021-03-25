@@ -29,7 +29,7 @@ public class MyController {
 
 
     @GetMapping(value = "/admin")
-    public String showAllUsers(ModelMap model) {
+    public String showAllUsers( ModelMap model) {
         List<User> list = userService.getAllUsers();
         model.addAttribute("allUsers", list);
         return "users";
@@ -40,20 +40,12 @@ public class MyController {
         return "userPage";
     }
 
-
-    @GetMapping(value = "/{id}")
-    public String show(@PathVariable("id") Integer id, ModelMap modelMap) {
-        modelMap.addAttribute("user", userService.show(id));
-        return "idUsers";
-    }
-
     @GetMapping(value = "/admin/new")
     public String addUser(ModelMap modelMap) {
         modelMap.addAttribute("addUser", new User());
         modelMap.addAttribute("allRoles", roleService.getAllRoles());
         return "userAdd";
     }
-
 
     @PostMapping(value = "/admin")
     public String addUserBd(@ModelAttribute("addUser") User user,

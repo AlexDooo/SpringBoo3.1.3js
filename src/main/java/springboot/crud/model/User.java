@@ -58,7 +58,6 @@ public class User implements UserDetails {
         roles.add(role);
     }
 
-
     public Integer getId() {
         return id;
     }

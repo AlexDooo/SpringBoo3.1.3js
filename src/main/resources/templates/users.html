@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:5px>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,49 +9,100 @@
             padding: 25px;
         }
     </style>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
 </head>
 <body>
-<div style="border: 5px solid #ddd;padding:10px;margin-bottom:20px;">
+<header>
+    <div class="container-fluid bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+            <a class="navbar-brand text-white" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-    <a href="http://localhost:8080/admin/new">Create new user</a>
-
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a>R</a>
+                    </li>
+                </ul>
+                <a class="nav-link text-white-50" href="http://localhost:8080/login">Logout</a>
+            </div>
+        </nav>
+    </div>
+</header>
+<div class="container-fluid">
+    <div class="row ">
+        <div class="col-2">
+            <h2>Должна быть роль</h2>
+        </div>
+        <div class="col-10">
+            <div class="container-fluid p-5 mb-2 bg-light">
+                <h1>Admin panel</h1>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" role="tab" aria-controls="admin"
+                           aria-selected="true" href="/admin">User table</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="new-tab" data-toggle="tab" role="tab" aria-controls="new-user"
+                           aria-selected="false" href="/admin/new">New User</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="admin" role="tabpanel" aria-labelledby="home-tab">
+                        <div class="card">
+                            <div class="card-header">
+                                <b>All Users</b>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped border">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Last Name</th>
+                                        <th>Email</th>
+                                        <th>Login</th>
+                                        <th>Password</th>
+                                        <th>Role</th>
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="user : ${allUsers}">
+                                        <td th:text="${user.id}"></td>
+                                        <td th:text="${user.firstName}"></td>
+                                        <td th:text="${user.lastName}"></td>
+                                        <td th:text="${user.email}"></td>
+                                        <td th:text="${user.userName}"></td>
+                                        <td th:text="${user.password}"></td>
+                                        <td th:text="${user.getRoles()}"></td>
+                                        <td><a th:href="@{/{id}/edit(id=${user.getId()})}" th:text="Edit"
+                                               class="btn btn-primary"></a>
+                                        </td>
+                                        <td>
+                                            <form th:method="DELETE" th:action="@{/{id}(id=${user.getId()})}">
+                                                <input type="submit" class="btn btn-danger" value="Delete"/>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="new-user" role="tabpanel" aria-labelledby="new-tab"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div style="border: 5px solid #ddd;padding:10px;margin-bottom:20px;">
-
-    <a href="http://localhost:8080/login">Exit</a>
-
-</div>
-
-
-<table>
-    <tr>
-        <th>All User</th>
-    </tr>
-</table>
-<table border="allUser">
-
-    <tr>
-        <th>Name</th>
-        <th>Last Name</th>
-        <th>Email</th>
-        <th>Login</th>
-        <th>Password</th>
-        <th>Role</th>
-    </tr>
-    <tr th:each="user : ${allUsers}">
-        <td><a th:href="@{/{id}(id=${user.getId()})}" th:text="${user.firstName}"></a>
-        </td>
-        <td th:text="${user.lastName}"></td>
-        <td th:text="${user.email}"></td>
-        <td th:text="${user.userName}"></td>
-        <td th:text="${user.password}"></td>
-        <td th:text="${user.getRoles()}"></td>
-    </tr>
-
-
-</table>
-
-<dr/>
-
 </body>
 </html>
