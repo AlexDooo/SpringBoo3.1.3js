@@ -40,6 +40,7 @@ public class MyController {
         return "userPage";
     }
 
+
     @GetMapping(value = "/admin/new")
     public String addUser(ModelMap modelMap) {
         modelMap.addAttribute("addUser", new User());
@@ -64,14 +65,20 @@ public class MyController {
         return "redirect:/admin";
     }
 
+    @GetMapping("/{id}")
+    @ResponseBody
+    public User show(@PathVariable Integer id) {
+        return userService.show(id);
+    }
+
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") Integer id, ModelMap modelMap) {
         modelMap.addAttribute("user", userService.show(id));
         modelMap.addAttribute("allRoles", roleService.getAllRoles());
-        return "edit";
+        return "users";
     }
 
-    @PatchMapping(value = "/{id}")
+    @PatchMapping(value = "/edd")
     public String update(@ModelAttribute("user") User user,
                          @RequestParam(value = "select_roles", required = false) String[] role) {
         userService.update(user, role);
