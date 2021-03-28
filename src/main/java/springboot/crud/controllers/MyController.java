@@ -29,9 +29,12 @@ public class MyController {
 
 
     @GetMapping(value = "/admin")
-    public String showAllUsers( ModelMap model) {
+    public String showAllUsers(ModelMap model) {
         List<User> list = userService.getAllUsers();
+        model.addAttribute("allRoles", roleService.getAllRoles());
         model.addAttribute("allUsers", list);
+        model.addAttribute("addUser", new User());
+        model.addAttribute("allRoles", roleService.getAllRoles());
         return "users";
     }
 
@@ -40,13 +43,13 @@ public class MyController {
         return "userPage";
     }
 
-
-    @GetMapping(value = "/admin/new")
-    public String addUser(ModelMap modelMap) {
-        modelMap.addAttribute("addUser", new User());
-        modelMap.addAttribute("allRoles", roleService.getAllRoles());
-        return "userAdd";
-    }
+//
+//    @GetMapping(value = "/admin/new")
+//    public String addUser(ModelMap modelMap) {
+//        modelMap.addAttribute("addUser", new User());
+//        modelMap.addAttribute("allRoles", roleService.getAllRoles());
+//        return "users";
+//    }
 
     @PostMapping(value = "/admin")
     public String addUserBd(@ModelAttribute("addUser") User user,
@@ -65,20 +68,15 @@ public class MyController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/{id}")
-    @ResponseBody
-    public User show(@PathVariable Integer id) {
-        return userService.show(id);
-    }
 
-    @GetMapping("/{id}/edit")
-    public String edit(@PathVariable("id") Integer id, ModelMap modelMap) {
-        modelMap.addAttribute("user", userService.show(id));
-        modelMap.addAttribute("allRoles", roleService.getAllRoles());
-        return "users";
-    }
+//    @GetMapping("/{id}/edit")
+//    public String edit(@PathVariable("id") Integer id, ModelMap modelMap) {
+//        modelMap.addAttribute("user", userService.show(id));
+//        modelMap.addAttribute("allRoles", roleService.getAllRoles());
+//        return "users";
+//    }
 
-    @PatchMapping(value = "/edd")
+    @PatchMapping(value = "/{id}")
     public String update(@ModelAttribute("user") User user,
                          @RequestParam(value = "select_roles", required = false) String[] role) {
         userService.update(user, role);
