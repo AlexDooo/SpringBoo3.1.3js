@@ -9,7 +9,6 @@ import springboot.crud.model.User;
 import springboot.crud.repos.RoleRepository;
 import springboot.crud.repos.UserRepository;
 
-import javax.persistence.TypedQuery;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -29,8 +28,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(User user) {
+       return userRepository.save(user);
     }
 
     @Override
@@ -47,17 +46,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(User user, String[] role) {
-        Set<Role> rol = new HashSet<>();
-        for (String s : role) {
-            if (s.equals("ROLE_ADMIN")) {
-                rol.add(showRole(1));
-            } else {
-                rol.add(showRole(2));
-            }
-        }
-        user.setRoles(rol);
-        userRepository.save(user);
+    public User update(User user) {
+        User updateUser = userRepository.findById(user.getId()).orElse(null);
+        updateUser.setFirstName(user.getFirstName());
+        updateUser.setLastName(user.getLastName());
+        updateUser.setEmail(user.getEmail());
+        updateUser.setUserName(user.getUserName());
+        updateUser.setPassword(user.getPassword());
+        updateUser.setRoles(user.getRoles());
+        return userRepository.save(updateUser);
     }
 
     @Override
