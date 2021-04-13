@@ -4,6 +4,9 @@ package springboot.crud.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import springboot.crud.model.Role;
 import springboot.crud.model.User;
 import springboot.crud.repos.RoleRepository;
@@ -58,7 +61,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(int id) {
+
+    public void delete(Integer id) {
         userRepository.deleteById(id);
     }
 

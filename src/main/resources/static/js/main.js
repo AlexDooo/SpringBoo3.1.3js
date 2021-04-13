@@ -62,16 +62,53 @@ function restartAllUser() {
                 let TableRow = createTableRow(item);
                 UserTableBody.append(TableRow);
 
+
+                // $('.table .elBtn').on('click', function (event) {
+                //     event.preventDefault();
+                //     let href = $(this).attr("href");
+                //
+                //     $.get(href,function (country,status){
+                //         $(".editUser #id").val(country.id)
+                //         $(".editUser #firstNameEd").val(country.firstName)
+                //         $(".editUser #lastNameEd").val(country.lastName)
+                //         $(".editUser #emailEd").val(country.email)
+                //         $(".editUser #userNameEd").val(country.userName)
+                //         $(".editUser #passwordEd").val(country.password)
+                //         $(".editUser #selectRoleEd").val(country.roles)
+                //     });
+                //     $(".editUser #exampleModal").modal();
+                //
+                //
+                //     fetch("api/edit/{id}", {
+                //         method: "PUT",
+                //         headers: {
+                //             "Content-Type": "application/json;charset=utf-8"
+                //         }
+                //     }).then(result => console.log(result))
+                //         .then(() => restartAllUser());
+                //
+                // });
+
 // тут описание двух кнопок и два феча( делит и эдит )
+//                 $('.delBtn').on('click', function (event) {
+//                     fetch("api/delete/{id}", {
+//                         method: "DELETE",
+//                         headers: {
+//                             "Content-Type": "application/json;charset=utf-8"
+//                         }
+//                     }).then(result => console.log(result))
+//                         .then(() => restartAllUser());
+//                     });
                 $('.delBtn').on('click', function (event) {
-                    fetch("api/delete/{id}", {
+                    let href = $(this).attr('href');
+                    fetch(href, {
                         method: "DELETE",
                         headers: {
                             "Content-Type": "application/json;charset=utf-8"
                         }
                     }).then(result => console.log(result))
                         .then(() => restartAllUser());
-                    });
+                });
 
 
 

@@ -17,7 +17,7 @@ public interface UserService {
 
     Role showRole(int id);
 
-    void delete(int id);
+    void delete(Integer id);
 
     User findByUserName(String userName);
 }
