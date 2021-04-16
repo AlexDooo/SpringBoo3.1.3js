@@ -32,8 +32,8 @@ public class MyRestController {
     }
 
     @GetMapping("/{id}")
-    public User getOne(@PathVariable("id") User user) {
-        return user;
+    public User getOne(@PathVariable Integer id) {
+        return userService.show(id);
     }
 //
     @PostMapping("/newUser")
@@ -43,7 +43,7 @@ public class MyRestController {
     }
 //
 //
-    @PutMapping("/edit/{id}")
+    @PutMapping("/edit")
     public User update(@RequestBody User user) {
         return userService.update(user);
     }

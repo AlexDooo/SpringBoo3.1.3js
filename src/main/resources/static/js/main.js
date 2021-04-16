@@ -17,7 +17,9 @@ $(document).ready(function () {
                 "Content-Type": "application/json;charset=utf-8"
             },
             body: JSON.stringify(user)
-        }).then(() => restartAllUser());
+        }).then(() => openTabById('nav-home'))
+            .then(() => restartAllUser());
+        $('input').val('');
     });
 });
 
@@ -62,59 +64,87 @@ function restartAllUser() {
                 let TableRow = createTableRow(item);
                 UserTableBody.append(TableRow);
 
-
-                // $('.table .elBtn').on('click', function (event) {
-                //     event.preventDefault();
-                //     let href = $(this).attr("href");
-                //
-                //     $.get(href,function (country,status){
-                //         $(".editUser #id").val(country.id)
-                //         $(".editUser #firstNameEd").val(country.firstName)
-                //         $(".editUser #lastNameEd").val(country.lastName)
-                //         $(".editUser #emailEd").val(country.email)
-                //         $(".editUser #userNameEd").val(country.userName)
-                //         $(".editUser #passwordEd").val(country.password)
-                //         $(".editUser #selectRoleEd").val(country.roles)
-                //     });
-                //     $(".editUser #exampleModal").modal();
-                //
-                //
-                //     fetch("api/edit/{id}", {
-                //         method: "PUT",
-                //         headers: {
-                //             "Content-Type": "application/json;charset=utf-8"
-                //         }
-                //     }).then(result => console.log(result))
-                //         .then(() => restartAllUser());
-                //
-                // });
-
-// тут описание двух кнопок и два феча( делит и эдит )
-//                 $('.delBtn').on('click', function (event) {
-//                     fetch("api/delete/{id}", {
-//                         method: "DELETE",
-//                         headers: {
-//                             "Content-Type": "application/json;charset=utf-8"
-//                         }
-//                     }).then(result => console.log(result))
-//                         .then(() => restartAllUser());
-//                     });
-                $('.delBtn').on('click', function (event) {
-                    let href = $(this).attr('href');
-                    fetch(href, {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json;charset=utf-8"
-                        }
-                    }).then(result => console.log(result))
-                        .then(() => restartAllUser());
-                });
-
-
-
             }));
         }).catch(error => {
         console.log(error);
     });
 }
+
+document.addEventListener('click', function (event) {
+    event.preventDefault()
+    if ($(event.target).hasClass('delBtn')) {
+        let href = $(event.target).attr("href");
+        delModalButton(href)
+    }
+
+
+
+    if ($(event.target).hasClass('eBtn')) {
+        let href = $(event.target).attr("href");
+        $(".editUser #exampleModal").modal();
+
+        $.get(href, function (user) {
+            $(".editUser #id").val(user.id);
+            $(".editUser #firstNameEd").val(user.firstName);
+            $(".editUser #lastNameEd").val(user.lastName);
+            $(".editUser #emailEd").val(user.email);
+            $(".editUser #userNameEd").val(user.userName);
+            $(".editUser #passwordEd").val(user.password);
+            $(".editUser #selectRoleEd").val(user.roles);
+        });
+    }
+    if ($(event.target).hasClass('editButton')) {
+        let user = {
+            id:$('#id').val(),
+            firstName:$('#firstNameEd').val(),
+            lastName:$('#lastNameEd').val(),
+            email:$('#emailEd').val(),
+            userName:$('#userNameEd').val(),
+            password:$('#passwordEd').val(),
+            roles: getRole("#selectRoleEd")
+
+        }
+        editModalButton(user)
+        console.log(user);
+    }
+
+
+    // console.log(event.target.parentNode.parentNode)
+});
+
+function delModalButton(href) {
+    fetch(href, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        }
+    }).then(() => restartAllUser());
+}
+function editModalButton(user) {
+    fetch("api/edit", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify(user)
+    }).then(function (response) {
+        $('input').val('');
+        $('.editUser #exampleModal').modal('hide');
+        restartAllUser();
+    })
+}
+function openTabById(tab) {
+    $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+}
+
+// if ( $(event.target).hasClass('eBtn') ) {
+//     let href = $(event.target).attr("href");
+//     fetch(href, {
+//         method: "PUT",
+//         headers: {
+//             "Content-Type": "application/json;charset=utf-8"
+//         }
+//     }).then(()=> restartAllUser());
+// }
+// console.log(event.target.parentNode.parentNode)
 
