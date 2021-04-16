@@ -108,8 +108,13 @@ document.addEventListener('click', function (event) {
         console.log(user);
     }
 
+    if ($(event.target).hasClass('logout')) {
+      logout();
+    }
+    if ($(event.target).hasClass('btnUserTable')) {
+        userTable();
+    }
 
-    // console.log(event.target.parentNode.parentNode)
 });
 
 function delModalButton(href) {
@@ -136,15 +141,11 @@ function editModalButton(user) {
 function openTabById(tab) {
     $('.nav-tabs a[href="#' + tab + '"]').tab('show');
 }
+function logout(){
+    document.location.replace("/logout");
+}
+function userTable(){
+    document.location.replace("/user");
+}
 
-// if ( $(event.target).hasClass('eBtn') ) {
-//     let href = $(event.target).attr("href");
-//     fetch(href, {
-//         method: "PUT",
-//         headers: {
-//             "Content-Type": "application/json;charset=utf-8"
-//         }
-//     }).then(()=> restartAllUser());
-// }
-// console.log(event.target.parentNode.parentNode)
 
